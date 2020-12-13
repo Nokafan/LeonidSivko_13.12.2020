@@ -1,7 +1,8 @@
 package com.progforce.dao;
 
 import com.progforce.model.Content;
+import java.util.Optional;
 
 public interface ContentDao {
-    Content getContent();
+    Optional<Content> getContent();
 }

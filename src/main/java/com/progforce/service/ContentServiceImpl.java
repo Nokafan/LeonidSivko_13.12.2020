@@ -20,7 +20,8 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public Content getContentFromDB() {
-        return dao.getContent();
+        return dao.getContent()
+                .orElseThrow(() -> new RuntimeException("DB contains no Content"));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class ContentServiceImpl implements ContentService {
     private boolean isContainTif(Content content) {
         return !content.getFiles().isEmpty()
                && content.getFiles().stream()
-                .allMatch(file -> file.getFileName().endsWith(TIF_EXTENSION));
+                       .allMatch(file -> file.getFileName().endsWith(TIF_EXTENSION));
     }
 
     private boolean isAllFilesToCopy(Content content) {

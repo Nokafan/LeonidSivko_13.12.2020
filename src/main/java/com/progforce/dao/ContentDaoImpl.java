@@ -9,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ContentDaoImpl implements ContentDao {
     @Override
-    public Content getContent() {
+    public Optional<Content> getContent() {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT ContentID, FileName, ParentId, IsDirectory"
@@ -34,7 +35,7 @@ public class ContentDaoImpl implements ContentDao {
                     contentIdMap.get(current.getParentId()).getFiles().add(current);
                 }
             }
-            return root;
+            return Optional.ofNullable(root);
         } catch (SQLException e) {
             throw new DataProcessingException("Can not get items from DB", e);
         }
